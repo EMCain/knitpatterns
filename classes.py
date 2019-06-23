@@ -8,7 +8,13 @@ class KnittingBase(ABC):
         """
         raise NotImplementedError
 
-class Stitch(KnittingBase):
+    def mirror(self): 
+        """
+        this should always return its own type.
+        """
+        raise NotImplementedError
+
+class Stitch:
     def __init__(self, name: str, symbol: str, mother_loops: int=1, daughter_loops: int=1, reverse: 'Stitch'=None,  mirror: 'Stitch'=None):
         """
         A single stitch, which may include multiple loops 
@@ -17,7 +23,7 @@ class Stitch(KnittingBase):
         mother_loops - how many initial loops are taken up by the stitch, e.g. k2tog (knit two together) starts with 2 loops so this would be 2.
         daughter_loops - how many result from the stitch, e.g. k2tog (knit two together) results in 1 loop so this would be 1.
         reverse - what this stitch would be on the "wrong" side, e.g. a purl is the reverse of a knit. Defaults to self. 
-        mirror - what this stitch would look like flipped left-to-right e.g. a k2tog is the mirror of a ssk.
+        mirror - what this stitch would look like flipped left-to-right e.g. a k2tog is the mirror of a ssk. Defaults to self. 
         """
         
         self.mother_loops = mother_loops
@@ -43,7 +49,17 @@ class StitchPattern(KnittingBase):
     def __init__(self, pattern: List[Stitch], name=None):
         self.pattern = pattern 
         if name is None: 
-            name = ''.join(str(self.pattern))
+            self.name = ''.join([s.name for s in self.pattern])
+        else: 
+            self.name = name
+    
+    def __repr__(self):
+        f'<StitchPattern: {self.name}>'
 
     def reverse(self, name=None): 
         return StitchPattern([stitch.reverse for stitch in reversed(self.pattern)], name)
+
+    def mirror(self, name=None): 
+        return StitchPattern([stitch.mirror for stitch in reversed(self.pattern)], name)
+
+    
