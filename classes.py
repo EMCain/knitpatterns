@@ -3,6 +3,9 @@ from typing import List, Optional
 
 class KnittingBase(ABC):
     def reverse(self): 
+        """
+        this should always return its own type.
+        """
         raise NotImplementedError
 
 class Stitch(KnittingBase):
@@ -43,4 +46,4 @@ class StitchPattern(KnittingBase):
             name = ''.join(str(self.pattern))
 
     def reverse(self): 
-        return [stitch.reverse for stitch in reversed(self.pattern)]
+        return StitchPattern([stitch.reverse for stitch in reversed(self.pattern)])
