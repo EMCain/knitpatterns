@@ -1,4 +1,4 @@
-from classes import *
+from classes import Stitch, StitchPattern
 
 # some standard stitches
 knit = Stitch('k', u'|', 1, 1)
