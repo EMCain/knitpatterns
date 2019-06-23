@@ -45,5 +45,5 @@ class StitchPattern(KnittingBase):
         if name is None: 
             name = ''.join(str(self.pattern))
 
-    def reverse(self): 
-        return StitchPattern([stitch.reverse for stitch in reversed(self.pattern)])
+    def reverse(self, name=None): 
+        return StitchPattern([stitch.reverse for stitch in reversed(self.pattern)], name)
